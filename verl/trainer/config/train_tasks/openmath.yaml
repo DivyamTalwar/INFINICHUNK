@@ -2,7 +2,7 @@
   name: math_like_task
   loading_params:
     args:
-      - McGill-NLP/openmath-filtered
+      - DivyamTalwar/openmath-filtered
     kwargs:
       split: test
   problem_key: problem

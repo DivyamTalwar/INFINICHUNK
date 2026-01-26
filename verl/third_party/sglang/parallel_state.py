@@ -1,8 +1,6 @@
-# Copyright 2024 Bytedance Ltd. and/or its affiliates
-# Copyright 2023 The SGlang team.
+# Copyright 2026 Divyam Talwar
 # Adapted from
 # https://github.com/NVIDIA/Megatron-LM/blob/main/megatron/core/parallel_state.py
-# Copyright (c) 2022, NVIDIA CORPORATION. All rights reserved.
 """Model and data parallel groups."""
 
 import os

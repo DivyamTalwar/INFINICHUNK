@@ -1,9 +1,8 @@
-# Copyright 2025 Bytedance Ltd. and/or its affiliates
+# Copyright 2026 Divyam Talwar
 #
 # This code is inspired by the torchtune.
 # https://github.com/pytorch/torchtune/blob/main/torchtune/utils/_device.py
 #
-# Copyright (c) Meta Platforms, Inc. and affiliates.
 # All rights reserved.
 #
 # This source code is licensed under the BSD-style license in https://github.com/pytorch/torchtune/blob/main/LICENSE

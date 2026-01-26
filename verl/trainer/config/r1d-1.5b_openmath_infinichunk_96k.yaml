@@ -7,7 +7,7 @@ defaults:
 
 actor_rollout_ref:
   model:
-    path: McGill-NLP/infinichunk-96k-base-1.5b
+    path: DivyamTalwar/infinichunk-96k-base-1.5b
   rollout:
     multi_turn:
       # max number of infinichunk turns (I)
