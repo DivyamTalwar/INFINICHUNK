@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600">
+  <defs>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#141428;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0b0b15;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="winGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00f2fe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4facfe;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="dropshadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1000" height="600" rx="20" fill="#0f0f1a" stroke="#333" stroke-width="1"/>
+  <rect width="1000" height="600" fill="url(#grid)" opacity="0.3"/>
+  <text x="50" y="50" font-family="Arial" font-size="28" fill="#fff" font-weight="bold">BENCHMARK BREKDOWN: OpenMath</text>
+  <text x="50" y="80" font-family="Arial" font-size="14" fill="#aaa">Model: DeepSeek-R1-Distill-1.5B  •  Dataset: OpenMath-100k</text>
+
+  <!-- === LEFT PANEL: THE NUMBERS === -->
+  <g transform="translate(50, 120)">
+     <!-- Card 1: Accuracy -->
+     <rect width="280" height="180" rx="10" fill="url(#cardGrad)" stroke="#333" filter="url(#dropshadow)"/>
+     <text x="20" y="30" font-family="Arial" font-size="14" fill="#4facfe" font-weight="bold">REASONING ACCURACY</text>
+     <text x="20" y="90" font-family="Arial" font-size="60" fill="#fff" font-weight="bold">65.8%</text>
+     <text x="20" y="120" font-family="Arial" font-size="14" fill="#50c878">▲ +3.4% vs Baseline</text>
+     <text x="20" y="150" font-family="Arial" font-size="12" fill="#888">Outperforms standard PPO</text>
+
+     <!-- Card 2: Cost -->
+     <g transform="translate(0, 200)">
+        <rect width="280" height="180" rx="10" fill="url(#cardGrad)" stroke="#333" filter="url(#dropshadow)"/>
+        <text x="20" y="30" font-family="Arial" font-size="14" fill="#f5a623" font-weight="bold">TRAINING COST</text>
+        <text x="20" y="90" font-family="Arial" font-size="60" fill="#fff" font-weight="bold">3x</text>
+        <text x="20" y="120" font-family="Arial" font-size="14" fill="#f5a623">▼ Lower Compute</text>
+        <text x="20" y="150" font-family="Arial" font-size="12" fill="#888">Linear scaling saves GPUs</text>
+     </g>
+  </g>
+
+  <!-- === RIGHT PANEL: THE CHART === -->
+  <g transform="translate(400, 120)">
+     <rect width="550" height="380" rx="10" fill="#1a1a2e" stroke="#333"/>
+     
+     <!-- Chart Title -->
+     <text x="275" y="40" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" font-weight="bold">Training Efficiency Curve</text>
+     
+     <!-- Chart Axes -->
+     <line x1="50" y1="300" x2="500" y2="300" stroke="#555" stroke-width="2"/>
+     <line x1="50" y1="50" x2="50" y2="300" stroke="#555" stroke-width="2"/>
+     
+     <!-- Baseline Curve (Slow) -->
+     <polyline points="50,280 150,240 250,220 350,210 500,205" fill="none" stroke="#666" stroke-width="3" stroke-dasharray="5,5"/>
+     <text x="400" y="230" font-family="Arial" font-size="12" fill="#666">Baseline (Slow Convergence)</text>
+     
+     <!-- Infinite Curve (Fast) -->
+     <polyline points="50,280 150,150 250,120 350,100 500,90" fill="none" stroke="url(#winGrad)" stroke-width="4"/>
+     <text x="350" y="90" font-family="Arial" font-size="12" fill="#4facfe" font-weight="bold">INFINICHUNK (Ours)</text>
+     
+     <!-- Annotations -->
+     <circle cx="250" cy="120" r="5" fill="#fff"/>
+     <text x="260" y="125" font-family="Arial" font-size="11" fill="#fff">Reaches peak score in 12h</text>
+     
+     <circle cx="500" cy="205" r="5" fill="#666"/>
+     <text x="490" y="240" font-family="Arial" font-size="11" fill="#666" text-anchor="end">48h to converge</text>
+  </g>
+  
+  <!-- Footer -->
+  <g transform="translate(50, 520)">
+      <text font-family="Arial" font-size="12" fill="#888">
+         <tspan font-weight="bold">Analysis:</tspan> By maintaining a fixed context window, we eliminate the need for re-computing massive history. 
+         This results in strictly linear O(N) complexity for training steps, allowing models to learn math reasoning significantly faster.
+      </text>
+  </g>
+
+</svg>

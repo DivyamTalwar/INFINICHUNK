@@ -59,11 +59,11 @@ Our training stack is built for massive scale, leveraging **Ray** for distribute
 We achieve strong reasoning performance on math benchmarks while slashing training costs by **3x**.
 
 <p align="center">
-  <img src="./assets/main_results.png" width="100%"/>
+  <img src="./assets/results_benchmark.svg" width="100%"/>
 </p>
 
 <p align="center">
-  <img src="./assets/infinichunk_96k.png" width="90%"/>
+  <img src="./assets/results_scaling.svg" width="90%"/>
 </p>
 
 ---
