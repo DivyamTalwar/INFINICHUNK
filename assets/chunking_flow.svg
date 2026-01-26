@@ -1,91 +1,152 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600">
   <defs>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
-      <feOffset dx="2" dy="2" result="offsetblur"/>
-      <feMerge>
-        <feMergeNode in="offsetblur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    <!-- Ultra Smooth Gradients -->
+    <linearGradient id="headGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="popGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38f9d7;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Clipping Path -->
+    <clipPath id="genBoxClip">
+       <rect width="250" height="320" rx="12" />
+    </clipPath>
+    
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-opacity="0.03" stroke-width="1"/>
+    </pattern>
+
+    <filter id="softShadow">
+       <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+       <feOffset dx="0" dy="4" result="offsetblur"/>
+       <feComponentTransfer>
+         <feFuncA type="linear" slope="0.2"/>
+       </feComponentTransfer>
+       <feMerge>
+         <feMergeNode in="offsetblur"/>
+         <feMergeNode in="SourceGraphic"/>
+       </feMerge>
     </filter>
-    <linearGradient id="chunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#2a2a40;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#3a3a50;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="trimGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#2d2d44;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
-    </linearGradient>
   </defs>
 
-  <!-- Background -->
-  <rect width="800" height="350" fill="#0d0d15" rx="10"/>
+  <!-- Background (Height 600) -->
+  <rect width="1000" height="600" rx="16" fill="#0c0c16" stroke="#222" stroke-width="1"/>
+  <rect width="1000" height="600" fill="url(#grid)"/>
 
-  <!-- Chunk 1 -->
-  <g transform="translate(30, 100)">
-    <rect width="180" height="120" rx="8" fill="url(#chunkGradient)" stroke="#4a90e2" stroke-width="2" filter="url(#shadow)"/>
-    <text x="90" y="-15" font-family="Arial, sans-serif" font-size="14" fill="#4a90e2" text-anchor="middle" font-weight="bold">Chunk 1: Initial</text>
-    
-    <!-- Content Representation -->
-    <rect x="20" y="30" width="140" height="20" rx="3" fill="#555"/>
-    <text x="90" y="45" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Prompt</text>
-    
-    <rect x="20" y="60" width="140" height="40" rx="3" fill="#4a90e2" opacity="0.3"/>
-    <text x="90" y="85" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">Response (C tokens)</text>
-  </g>
+  <!-- Title -->
+  <text x="500" y="50" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="26" fill="#fff" text-anchor="middle" font-weight="300" letter-spacing="4">INFINICHUNK FLOW</text>
+  <text x="500" y="80" font-family="Arial" font-size="12" fill="#666" text-anchor="middle" letter-spacing="1">CONTINUOUS REASONING ENGINE</text>
 
-  <!-- Arrows 1 -->
-  <path d="M210,160 L250,160" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
 
-  <!-- Trim Process -->
-  <g transform="translate(250, 80)">
-    <rect width="100" height="160" rx="8" fill="url(#trimGradient)" stroke="#f5a623" stroke-width="2" filter="url(#shadow)"/>
-    <text x="50" y="-15" font-family="Arial, sans-serif" font-size="14" fill="#f5a623" text-anchor="middle" font-weight="bold">Trim</text>
+  <!-- === STAGE 1: ACCUMULATION (Left) === -->
+  <g transform="translate(100, 140)">
+    <!-- Container -->
+    <rect width="250" height="320" rx="12" fill="#141420" stroke="#333" stroke-width="1" filter="url(#softShadow)"/>
     
-    <rect x="20" y="30" width="60" height="20" rx="3" fill="#50c878"/>
-    <text x="50" y="44" font-family="Arial, sans-serif" font-size="9" fill="#000" text-anchor="middle">Head</text>
+    <text x="125" y="40" font-family="Arial" font-size="13" fill="#4facfe" text-anchor="middle" font-weight="bold">GENERATION</text>
     
-    <rect x="20" y="60" width="60" height="40" rx="3" fill="#555" opacity="0.3" stroke="#555" stroke-dasharray="3,3"/>
-    <text x="50" y="85" font-family="Arial, sans-serif" font-size="9" fill="#888" text-anchor="middle">Discarded</text>
-    
-    <rect x="20" y="110" width="60" height="30" rx="3" fill="#9013fe"/>
-    <text x="50" y="129" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Tail (m)</text>
-  </g>
-
-  <!-- Arrows 2 -->
-  <path d="M350,160 L390,160" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
-
-  <!-- Chunk 2 -->
-  <g transform="translate(390, 100)">
-    <rect width="180" height="120" rx="8" fill="url(#chunkGradient)" stroke="#9013fe" stroke-width="2" filter="url(#shadow)"/>
-    <text x="90" y="-15" font-family="Arial, sans-serif" font-size="14" fill="#9013fe" text-anchor="middle" font-weight="bold">Chunk 2: Continue</text>
-    
-    <g transform="translate(20, 30)">
-        <rect width="30" height="20" rx="3" fill="#50c878"/> <!-- Head -->
-        <rect x="35" y="0" width="105" height="20" rx="3" fill="#9013fe"/> <!-- Tail -->
-        <text x="70" y="14" font-family="Arial, sans-serif" font-size="9" fill="#fff" text-anchor="middle">Carryover State</text>
+    <!-- Clip content to stay inside -->
+    <g clip-path="url(#genBoxClip)">
+        <g transform="translate(25, 70)">
+            <!-- Head -->
+            <rect width="200" height="30" rx="4" fill="url(#headGrad)"/>
+            <text x="100" y="20" font-family="Arial" font-size="10" fill="#000" text-anchor="middle">Fixed Head</text>
+            
+            <!-- Growing Body -->
+            <rect y="40" width="200" height="100" rx="4" fill="#222" stroke="#444" stroke-dasharray="4,4"/>
+            <text x="100" y="90" font-family="Arial" font-size="10" fill="#666" text-anchor="middle">Existing Context</text>
+            
+            <!-- SUPER SMOOTH GROWTH (Reduced Max Height to stay safely inside) -->
+            <rect x="0" y="150" width="200" height="0" rx="4" fill="url(#popGrad)" opacity="0.9">
+                <!-- Max height changed from 120 to 90 to prevent overflow -->
+                <animate attributeName="height" values="0; 90; 90; 0" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0 0 1 1; 0.4 0 0.2 1" keyTimes="0; 0.5; 0.8; 1"/>
+            </rect>
+            
+            <text x="100" y="260" font-family="Arial" font-size="11" fill="#38f9d7" text-anchor="middle" opacity="0">
+                Generating...
+                <animate attributeName="opacity" values="0;1;1;0" dur="6s" repeatCount="indefinite" keyTimes="0; 0.2; 0.5; 1"/>
+            </text>
+        </g>
     </g>
+  </g>
+
+
+  <!-- Animated Connection Line -->
+  <path d="M350,280 L420,280" stroke="#444" stroke-width="2"/>
+  <circle cx="350" cy="280" r="3" fill="#fff">
+      <animate attributeName="cx" from="350" to="420" dur="2s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+
+  <!-- === STAGE 2: COMPRESSION (Center) === -->
+  <g transform="translate(420, 140)">
     
-    <rect x="20" y="60" width="140" height="40" rx="3" fill="#9013fe" opacity="0.3"/>
-    <text x="90" y="85" font-family="Arial, sans-serif" font-size="10" fill="#fff" text-anchor="middle">New Resp (C-m)</text>
-  </g>
-  
-  <!-- Arrows 3 -->
-  <path d="M570,160 L610,160" stroke="#fff" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="90" y="40" font-family="Arial" font-size="13" fill="#ff6b6b" text-anchor="middle" font-weight="bold">TRIMMING</text>
+    
+    <!-- TRIMMING VISUALIZATION -->
+    <g transform="translate(0, 70)">
+        <!-- Top (Head) -->
+        <rect width="180" height="30" rx="4" fill="#4facfe"/>
+        
+        <!-- Middle (The Victim) -->
+        <rect y="35" width="180" height="190" rx="4" fill="#ff6b6b" opacity="0">
+            <!-- Appears softly -->
+            <animate attributeName="opacity" values="0; 0; 0.6; 0" dur="6s" repeatCount="indefinite" keyTimes="0; 0.5; 0.6; 1"/>
+            <animate attributeName="height" values="190; 190; 0; 190" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" keyTimes="0; 0.6; 0.7; 1"/>
+        </rect>
+        
+        <!-- TEXT LABEL FOR DELETE -->
+        <text x="90" y="130" font-family="Arial" font-size="12" fill="#fff" text-anchor="middle" opacity="0">
+            DISCARD MIDDLE
+            <animate attributeName="opacity" values="0; 0; 1; 0" dur="6s" repeatCount="indefinite" keyTimes="0; 0.55; 0.65; 1"/>
+        </text>
 
-  <!-- Final -->
-  <g transform="translate(610, 110)">
-    <rect width="160" height="100" rx="8" fill="url(#chunkGradient)" stroke="#50c878" stroke-width="2" filter="url(#shadow)"/>
-    <text x="80" y="-15" font-family="Arial, sans-serif" font-size="14" fill="#50c878" text-anchor="middle" font-weight="bold">Chunk N</text>
-    <rect x="20" y="30" width="120" height="50" rx="3" fill="#50c878" opacity="0.2"/>
-    <text x="80" y="60" font-family="Arial, sans-serif" font-size="12" fill="#fff" text-anchor="middle">Final Answer</text>
+        <!-- Bottom (Tail - moves up effortlessly) -->
+        <rect y="235" width="180" height="60" rx="4" fill="#a18cd1">
+             <animate attributeName="y" values="235; 235; 40; 235" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="1 0 0 1; 0.4 0 0.2 1; 1 0 0 1" keyTimes="0; 0.6; 0.7; 1"/>
+        </rect>
+    </g>
   </g>
 
-  <!-- Markers -->
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L0,6 L9,3 z" fill="#fff" />
-    </marker>
-  </defs>
+
+  <!-- Animated Connection Line -->
+  <path d="M600,280 L680,280" stroke="#444" stroke-width="2"/>
+  <circle cx="600" cy="280" r="3" fill="#fff">
+      <animate attributeName="cx" from="600" to="680" dur="2s" repeatCount="indefinite" begin="0.5s" calcMode="spline" keySplines="0.4 0 0.2 1"/>
+      <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+
+  <!-- === STAGE 3: RESULT (Right) === -->
+  <g transform="translate(680, 140)">
+     <rect width="220" height="320" rx="12" fill="#141420" stroke="#333" stroke-width="1" filter="url(#softShadow)"/>
+     <text x="110" y="40" font-family="Arial" font-size="13" fill="#a18cd1" text-anchor="middle" font-weight="bold">NEXT STATE</text>
+
+     <g transform="translate(10, 100)">
+        <rect width="200" height="90" rx="4" fill="none" stroke="#666" stroke-dasharray="4,4" opacity="0.3"/>
+        
+        <text x="100" y="50" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle" opacity="0.3">Waiting...</text>
+        <text x="100" y="50" font-family="Arial" font-size="12" fill="#fff" text-anchor="middle" font-weight="bold" opacity="0">
+             READY
+             <animate attributeName="opacity" values="0; 0; 1; 0" dur="6s" repeatCount="indefinite" keyTimes="0; 0.7; 0.8; 1"/>
+        </text>
+
+        <!-- Soft Glow Pulse -->
+        <rect x="0" y="0" width="200" height="90" rx="4" fill="#a18cd1" opacity="0">
+             <animate attributeName="opacity" values="0; 0; 0.3; 0" dur="6s" repeatCount="indefinite" keyTimes="0; 0.75; 0.9; 1"/>
+        </rect>
+     </g>
+  </g>
+
+  <!-- Legend (MOVED DOWN to avoid overlap) -->
+  <g transform="translate(100, 520)">
+    <text font-family="Arial" font-size="11" fill="#666" text-anchor="middle">
+       <tspan x="400">The infinite loop of generation and compression keeps memory usage constant O(1).</tspan>
+    </text>
+  </g>
 
 </svg>

@@ -10,27 +10,26 @@
 
 <br>
 
-<!-- 1. HERO ANIMATION (Smooth SVG #1) -->
 <img src="./assets/chunking_engine.svg" width="100%"/>
 
 </div>
 
 ---
 
-## ⚡ The Problem: Quadratic Wall
+## 🎯 What is INFINICHUNK?
 
-Traditional LLM reasoning hits a hard wall. As you think longer, costs explode quadratically.
+**INFINICHUNK** enables LLMs to perform **extended chain-of-thought reasoning** across **virtually unlimited token lengths** while keeping compute and memory costs **linear** instead of quadratic.
 
-<!-- 2. COMPARISON DIAGRAM (Informative Image #1) -->
+### The Quadratic Barrier
+Traditional transformer reasoning faces a critical bottleneck: memory and compute scale as **O(N²)**. As reasoning chains grow longer, they become prohibitively expensive.
+
 <p align="center">
   <img src="./assets/complexity_comparison.svg" width="90%"/>
 </p>
 
-## 💡 The Solution: Constant Memory
+### The Linear Solution
+INFINICHUNK breaks reasoning into **fixed-size chunks** with intelligent state carryover. This ensures that memory usage remains constant, no matter how long the model thinks.
 
-INFINICHUNK keeps memory flat, no matter how long the reasoning chain grows.
-
-<!-- 3. MEMORY DIAGRAM (Informative Image #2) -->
 <p align="center">
   <img src="./assets/memory_comparison.svg" width="90%"/>
 </p>
@@ -39,43 +38,74 @@ INFINICHUNK keeps memory flat, no matter how long the reasoning chain grows.
 
 ## 🏗️ System Architecture
 
-How we train it at scale using Ray and PPO.
+Our training stack is built for massive scale, leveraging **Ray** for distributed rollout management and **PPO** for policy optimization.
 
-<!-- 4. ARCHITECTURE ANIMATION (Smooth SVG #2) -->
 <p align="center">
   <img src="./assets/architecture_animated.svg" width="90%"/>
 </p>
+
+### Core Components
+
+| Component | Purpose |
+|-----------|---------|
+| **Agent Loop** | Manages chunked generation cycles and state carryover logic. |
+| **Rollout Engine** | High-throughput async inference using **SGLang** or **vLLM**. |
+| **Trainer** | Distributed PPO optimization supporting GRPO and FSDP sharding. |
 
 ---
 
 ## 📊 Performance Results
 
-We achieve strong reasoning performance while slashing costs.
+We achieve strong reasoning performance on math benchmarks while slashing training costs by **3x**.
 
-<!-- 5. RESULTS CHART (Informative Image #3) -->
 <p align="center">
   <img src="./assets/main_results.png" width="100%"/>
 </p>
 
-<!-- 6. DETAILED RESULTS (Informative Image #4) -->
 <p align="center">
-  <img src="./assets/infinichunk_96k.png" width="100%"/>
+  <img src="./assets/infinichunk_96k.png" width="90%"/>
 </p>
 
 ---
 
-## 🔍 Deep Dive: The Logic
+## 🔄 How It Works (Deep Dive)
 
-<!-- 7. DETAILED FLOW (Informative Image #5) -->
+The core mechanism relies on a "Generate → Trim → Carryover" loop.
+
 <p align="center">
   <img src="./assets/chunking_flow.svg" width="100%"/>
 </p>
+
+### Step-by-Step Algorithm
+1.  **Initial Generation**: Generate the first chunk with full context `C`.
+2.  **Intelligent Trimming**: Keep the `head` (system prompt) and vital `tail` tokens.
+3.  **State Carryover**: Append the trimmed state to form the context for the next chunk.
+4.  **Recursion**: Repeat until the final answer is reached.
+
+---
+
+## ⚙️ Configuration
+
+### Key Parameters
+
+| Parameter | Symbol | Description | Example |
+|-----------|--------|-------------|---------|
+| Context Size | `C` | Max tokens per chunk | 8,192 |
+| Carryover Size | `m` | Tokens carried between chunks | 4,096 |
+| Keep Head | - | Preserved tokens from first response | 100 |
+
+### Recommended Configs
+
+| Config File | Budget | Use Case |
+|-------------|--------|----------|
+| `r1d-1.5b_deepscaler_infinichunk_24k` | 24K | Standard Math Reasoning |
+| `r1d-1.5b_openmath_infinichunk_96k` | 96K | Extended Deep Thought |
 
 ---
 
 ## 🚀 Quick Start
 
-### Installation
+### 1. Installation
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -84,7 +114,7 @@ uv pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu124
 uv pip install -e ".[sglang]"
 ```
 
-### Run Demo
+### 2. Run Inference Demo
 
 ```bash
 python infinichunk_tracing_demo.py \
@@ -92,12 +122,26 @@ python infinichunk_tracing_demo.py \
   --infinichunk_context_size 8192
 ```
 
-### Train
+### 3. Start Training
 
 ```bash
 python -m verl.trainer.main_policy_iteration \
   --config-name=r1d-1.5b_deepscaler_infinichunk_24k
 ```
+
+---
+
+## ❓ FAQ
+
+<details>
+<summary><b>Does this work with any model?</b></summary>
+Yes! You can plug in almost any base model (Qwen, Llama, Mistral) by changing the <code>model.path</code> in the config.
+</details>
+
+<details>
+<summary><b>How do I scale to more GPUs?</b></summary>
+Export <code>TREETUNEV__NUM_GPUS_PER_NODE=8</code> before running the training script to utilize full nodes.
+</details>
 
 ---
 

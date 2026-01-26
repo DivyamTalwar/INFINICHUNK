@@ -1,80 +1,157 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
   <defs>
-    <linearGradient id="cyberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2b32b2;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1488cc;stop-opacity:1" />
+    <!-- Premium Gradients -->
+    <linearGradient id="bgDeep" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080810;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#141428;stop-opacity:1" />
     </linearGradient>
-    <filter id="neon">
-      <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
-      <feMerge>
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
+    
+    <linearGradient id="rayGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0072ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00c6ff;stop-opacity:1" />
+    </linearGradient>
+
+    <linearGradient id="actorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a40;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="blur" in2="SourceGraphic" operator="over"/>
     </filter>
   </defs>
 
-  <rect width="900" height="500" rx="15" fill="#050505" stroke="#333" stroke-width="1"/>
+  <!-- Background -->
+  <rect width="900" height="600" rx="12" fill="url(#bgDeep)" stroke="#333" stroke-width="1"/>
+  <rect width="900" height="600" fill="url(#grid)" opacity="0.1"/>
+
+  <!-- Title -->
+  <text x="450" y="40" font-family="'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" fill="#fff" text-anchor="middle" font-weight="bold" letter-spacing="2">INFINICHUNK SYSTEM ARCHITECTURE</text>
+  <text x="450" y="65" font-family="Arial" font-size="12" fill="#bbb" text-anchor="middle">Distributed Reinforcement Learning • Ray • SGLang • PPO</text>
+
+  <!-- === CENTRAL HUB: Training Loop === -->
+  <g transform="translate(300, 150)">
+    <!-- Main Trainer Container -->
+    <rect width="300" height="200" rx="15" fill="#111" stroke="#50c878" stroke-width="2"/>
+    <text x="150" y="30" font-family="Arial" font-size="16" fill="#50c878" text-anchor="middle" font-weight="bold">PPO TRAINER (Ray Head)</text>
+    
+    <!-- Sub-components -->
+    <g transform="translate(30, 60)">
+      <rect width="100" height="40" rx="5" fill="#222" stroke="#50c878" stroke-width="1"/>
+      <text x="50" y="25" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">Advantage Est.</text>
+    </g>
+    
+    <g transform="translate(170, 60)">
+      <rect width="100" height="40" rx="5" fill="#222" stroke="#50c878" stroke-width="1"/>
+      <text x="50" y="25" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">Policy Update</text>
+    </g>
+
+    <g transform="translate(30, 120)">
+        <rect width="240" height="60" rx="5" fill="#1a1a2e" stroke="#555" stroke-dasharray="4,4"/>
+        <text x="120" y="25" font-family="Arial" font-size="11" fill="#aaa" text-anchor="middle">FSDP Sharding Strategy</text>
+        <circle cx="80" cy="40" r="5" fill="#50c878" opacity="0.5"/>
+        <circle cx="120" cy="40" r="5" fill="#50c878" opacity="0.5"/>
+        <circle cx="160" cy="40" r="5" fill="#50c878" opacity="0.5"/>
+    </g>
+  </g>
+
+
+  <!-- === LEFT: ROLLOUT WORKERS (The "Thinking" Engines) === -->
+  <g transform="translate(40, 150)">
+    <rect width="200" height="250" rx="10" fill="url(#actorGrad)" stroke="#9013fe" stroke-width="2"/>
+    <text x="100" y="30" font-family="Arial" font-size="14" fill="#9013fe" text-anchor="middle" font-weight="bold">ROLLOUT ACTORS</text>
+    <text x="100" y="50" font-family="Arial" font-size="11" fill="#bbb" text-anchor="middle">(Async Ray Actors)</text>
+    
+    <!-- Stack of Workers -->
+    <g transform="translate(20, 80)">
+       <rect width="160" height="40" rx="5" fill="#111" stroke="#9013fe" stroke-opacity="0.5"/>
+       <text x="80" y="25" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">SGLang Worker 1</text>
+       <circle cx="10" cy="20" r="3" fill="#00ff00"/>
+    </g>
+    <g transform="translate(20, 130)">
+       <rect width="160" height="40" rx="5" fill="#111" stroke="#9013fe" stroke-opacity="0.5"/>
+       <text x="80" y="25" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">SGLang Worker 2</text>
+       <circle cx="10" cy="20" r="3" fill="#00ff00"/>
+    </g>
+    <g transform="translate(20, 180)">
+       <rect width="160" height="40" rx="5" fill="#111" stroke="#9013fe" stroke-opacity="0.5"/>
+       <text x="80" y="25" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">SGLang Worker N ...</text>
+       <circle cx="10" cy="20" r="3" fill="#00ff00"/>
+    </g>
+  </g>
+
+  <!-- === RIGHT: DATA & REWARD === -->
+  <g transform="translate(660, 150)">
+    
+    <!-- Dataset -->
+    <g transform="translate(0, 0)">
+        <rect width="180" height="80" rx="8" fill="#1a1a2e" stroke="#00c6ff" stroke-width="2"/>
+        <text x="90" y="30" font-family="Arial" font-size="14" fill="#00c6ff" text-anchor="middle" font-weight="bold">DATASET</text>
+        <text x="90" y="55" font-family="Arial" font-size="11" fill="#bbb" text-anchor="middle">Prompts (OpenMath)</text>
+    </g>
+
+    <!-- Reward Manager -->
+    <g transform="translate(0, 120)">
+        <rect width="180" height="130" rx="8" fill="#1a1a2e" stroke="#f5a623" stroke-width="2"/>
+        <text x="90" y="30" font-family="Arial" font-size="14" fill="#f5a623" text-anchor="middle" font-weight="bold">REWARD MGR</text>
+        <line x1="20" y1="45" x2="160" y2="45" stroke="#f5a623" stroke-width="1"/>
+        
+        <text x="90" y="70" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">• Correctness</text>
+        <text x="90" y="90" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">• Length Penalty</text>
+        <text x="90" y="110" font-family="Arial" font-size="11" fill="#fff" text-anchor="middle">• Format Check</text>
+    </g>
+  </g>
+
+
+  <!-- === BOTTOM: INFRASTRUCTURE === -->
+  <g transform="translate(100, 480)">
+    <rect width="700" height="80" rx="10" fill="#222" stroke="#666" stroke-width="1"/>
+    <text x="350" y="30" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" letter-spacing="3" font-weight="bold">RAY DISTRIBUTED FABRIC</text>
+    
+    <g transform="translate(50, 45)">
+        <rect width="80" height="20" rx="4" fill="#444"/>
+        <text x="40" y="14" font-family="Arial" font-size="10" fill="#aaa" text-anchor="middle">Object Store</text>
+    </g>
+    <g transform="translate(150, 45)">
+        <rect width="80" height="20" rx="4" fill="#444"/>
+        <text x="40" y="14" font-family="Arial" font-size="10" fill="#aaa" text-anchor="middle">Scheduler</text>
+    </g>
+    
+    <!-- Moving Packets in Ray -->
+    <circle cx="280" cy="55" r="4" fill="#00c6ff">
+        <animate attributeName="cx" from="280" to="600" dur="2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+
+  <!-- === ANIMATED FLOW CONNECTIONS === -->
   
-  <text x="450" y="40" font-family="Arial" font-size="22" fill="#fff" text-anchor="middle" font-weight="bold" letter-spacing="2">SYSTEM ARCHITECTURE</text>
-
-  <!-- Component: Dataset -->
-  <g transform="translate(50, 200)">
-    <rect width="120" height="80" rx="8" fill="#1a1a2e" stroke="#1488cc" stroke-width="2"/>
-    <text x="60" y="45" font-family="Arial" font-size="14" fill="#1488cc" text-anchor="middle" font-weight="bold">DATASET</text>
-  </g>
-
-  <!-- Component: Rollout Worker (Animated) -->
-  <g transform="translate(250, 150)">
-    <rect width="180" height="180" rx="12" fill="#111" stroke="#9013fe" stroke-width="2"/>
-    <text x="90" y="30" font-family="Arial" font-size="14" fill="#9013fe" text-anchor="middle" font-weight="bold">ROLLOUT WORKER</text>
-    
-    <!-- Inner Animation -->
-    <rect x="40" y="60" width="100" height="20" rx="4" fill="#333"/>
-    <rect x="40" y="90" width="100" height="20" rx="4" fill="#333"/>
-    <rect x="40" y="120" width="100" height="20" rx="4" fill="#333"/>
-    
-    <!-- Moving Head -->
-    <rect x="35" y="55" width="110" height="30" rx="5" fill="none" stroke="#9013fe" stroke-width="2" opacity="0">
-      <animate attributeName="y" values="55;85;115;55" dur="3s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="1;1;1;0" dur="3s" repeatCount="indefinite"/>
-    </rect>
-  </g>
-
-  <!-- Component: Trainer -->
-  <g transform="translate(550, 150)">
-    <rect width="180" height="180" rx="12" fill="#111" stroke="#50c878" stroke-width="2"/>
-    <text x="90" y="30" font-family="Arial" font-size="14" fill="#50c878" text-anchor="middle" font-weight="bold">PPO TRAINER</text>
-    
-    <!-- Graph Animation -->
-    <polyline points="20,140 50,120 80,130 110,90 140,80 160,50" fill="none" stroke="#50c878" stroke-width="3">
-       <animate attributeName="stroke-dasharray" from="0,200" to="200,0" dur="2s" repeatCount="indefinite"/>
-    </polyline>
-  </g>
-
-  <!-- Component: Ray -->
-  <g transform="translate(250, 400)">
-    <rect width="480" height="60" rx="8" fill="#222"/>
-    <text x="240" y="35" font-family="Arial" font-size="16" fill="#fff" text-anchor="middle" letter-spacing="4">RAY DISTRIBUTED FABRIC</text>
-  </g>
-
-  <!-- Connections -->
-  <!-- Data -> Rollout -->
-  <path d="M170,240 L250,240" stroke="#fff" stroke-width="2" stroke-dasharray="5,5">
-    <animate attributeName="stroke-dashoffset" from="10" to="0" dur="0.5s" repeatCount="indefinite"/>
+  <!-- 1. Data -> Actors (Prompts) -->
+  <path d="M660,190 C600,190 400,100 240,160" fill="none" stroke="#00c6ff" stroke-width="2" stroke-dasharray="5,5">
+     <animate attributeName="stroke-dashoffset" from="10" to="0" dur="1s" repeatCount="indefinite"/>
   </path>
   
-  <!-- Rollout <-> Trainer -->
-  <path d="M430,220 L550,220" stroke="#fff" stroke-width="4"/>
-  <circle cx="430" cy="220" r="5" fill="#fff">
-     <animate attributeName="cx" from="430" to="550" dur="1s" repeatCount="indefinite"/>
+  <!-- 2. Actors -> Trainer (Trajectories) -->
+  <path d="M240,250 L300,250" stroke="#9013fe" stroke-width="4" opacity="0.5"/>
+  <circle r="4" fill="#9013fe" filter="url(#softGlow)">
+     <animateMotion dur="1.5s" repeatCount="indefinite" path="M240,250 L300,250" />
+     <animate attributeName="r" values="4;6;4" dur="0.5s" repeatCount="indefinite"/>
   </circle>
+
+  <!-- 3. Trainer -> Actors (Weights) -->
+  <path d="M300,300 L240,300" stroke="#50c878" stroke-width="2" stroke-dasharray="10,5">
+     <animate attributeName="stroke-dashoffset" from="0" to="15" dur="1s" repeatCount="indefinite"/>
+  </path>
+
+  <!-- 4. Actors -> Reward (Outputs) -->
+  <path d="M240,350 C400,450 600,350 660,250" fill="none" stroke="#f5a623" stroke-width="2" stroke-dasharray="10,10">
+      <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2s" repeatCount="indefinite"/>
+  </path>
   
-  <path d="M550,260 L430,260" stroke="#fff" stroke-width="4"/>
-  <circle cx="550" cy="260" r="5" fill="#50c878">
-     <animate attributeName="cx" from="550" to="430" dur="1s" repeatCount="indefinite"/>
-  </circle>
-  
-  <text x="490" y="200" font-family="Arial" font-size="10" fill="#aaa" text-anchor="middle">Data</text>
-  <text x="490" y="290" font-family="Arial" font-size="10" fill="#aaa" text-anchor="middle">Gradients</text>
+  <!-- Legend Overlay -->
+  <text x="270" y="240" font-family="Arial" font-size="10" fill="#9013fe">Rollouts</text>
+  <text x="270" y="320" font-family="Arial" font-size="10" fill="#50c878">Weight Updates</text>
 
 </svg>
