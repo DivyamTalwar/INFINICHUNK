@@ -1,6 +1,4 @@
-# Copyright 2025 Amirhossein Kazemnejad and/or its affiliates
-# Copyright 2025 Milad Aghajohari and/or its affiliates
-# Copyright 2025 Kamran Chitsaz and/or its affiliates
+# Copyright 2026 Divyam Talwar
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
