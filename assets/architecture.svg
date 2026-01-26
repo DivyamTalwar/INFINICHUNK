@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="2" dy="2" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="offsetblur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a40;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4a90e2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9013fe;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" fill="#0d0d15" rx="10"/>
+
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle" font-weight="bold">INFINICHUNK System Architecture</text>
+
+  <!-- Components -->
+  
+  <!-- Dataset -->
+  <g transform="translate(50, 200)" filter="url(#shadow)">
+    <rect width="140" height="80" rx="10" fill="url(#grad1)" stroke="#4a90e2" stroke-width="2"/>
+    <text x="70" y="35" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">Dataset</text>
+    <text x="70" y="55" font-family="Arial, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">DeepScaler /</text>
+    <text x="70" y="70" font-family="Arial, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">OpenMath</text>
+  </g>
+
+  <!-- Agent Loop -->
+  <g transform="translate(250, 100)" filter="url(#shadow)">
+    <rect width="160" height="100" rx="10" fill="url(#grad1)" stroke="#9013fe" stroke-width="2"/>
+    <text x="80" y="30" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">Agent Loop</text>
+    <path d="M40,50 L120,50 M80,50 L80,80" stroke="#9013fe" stroke-width="2"/>
+    <rect x="30" y="50" width="20" height="20" fill="#9013fe" opacity="0.5"/>
+    <rect x="60" y="50" width="20" height="20" fill="#9013fe" opacity="0.7"/>
+    <rect x="90" y="50" width="20" height="20" fill="#9013fe" opacity="0.9"/>
+    <text x="80" y="90" font-family="Arial, sans-serif" font-size="10" fill="#cccccc" text-anchor="middle">Chunked Generation</text>
+  </g>
+
+  <!-- Inference Engine -->
+  <g transform="translate(250, 300)" filter="url(#shadow)">
+    <rect width="160" height="80" rx="10" fill="url(#grad1)" stroke="#4a90e2" stroke-width="2"/>
+    <text x="80" y="35" font-family="Arial, sans-serif" font-size="14" fill="#ffffff" text-anchor="middle" font-weight="bold">Inference Engine</text>
+    <text x="80" y="60" font-family="Arial, sans-serif" font-size="12" fill="#aaaaaa" text-anchor="middle">SGLang / vLLM</text>
+  </g>
+
+  <!-- Training Loop Group -->
+  <g transform="translate(550, 150)" filter="url(#shadow)">
+    <rect width="200" height="200" rx="15" fill="#151520" stroke="#50c878" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="100" y="25" font-family="Arial, sans-serif" font-size="14" fill="#50c878" text-anchor="middle" font-weight="bold">Training Loop</text>
+    
+    <!-- Reward Manager -->
+    <g transform="translate(25, 40)">
+        <rect width="150" height="40" rx="5" fill="#2a2a40" stroke="#50c878" stroke-width="1"/>
+        <text x="75" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">Reward Manager</text>
+    </g>
+
+    <!-- Adv Est -->
+    <g transform="translate(25, 90)">
+        <rect width="150" height="40" rx="5" fill="#2a2a40" stroke="#50c878" stroke-width="1"/>
+        <text x="75" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">Advantage Est (GRPO)</text>
+    </g>
+
+    <!-- PPO Update -->
+    <g transform="translate(25, 140)">
+        <rect width="150" height="40" rx="5" fill="#2a2a40" stroke="#50c878" stroke-width="1"/>
+        <text x="75" y="25" font-family="Arial, sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">PPO Update</text>
+    </g>
+  </g>
+  
+  <!-- Infrastructure -->
+  <g transform="translate(50, 420)" filter="url(#shadow)">
+    <rect width="700" height="60" rx="10" fill="#222" stroke="#666" stroke-width="1"/>
+    <text x="350" y="35" font-family="Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle" font-weight="bold">Infrastructure: Ray Distributed + FSDP2 Sharding</text>
+  </g>
+
+  <!-- Connections -->
+  
+  <!-- Dataset -> Agent -->
+  <path d="M190,240 C220,240 220,150 250,150" stroke="#ffffff" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Agent <-> Inference -->
+  <path d="M300,200 L300,300" stroke="#4a90e2" stroke-width="2" fill="none" marker-end="url(#arrow)" marker-start="url(#circle)"/>
+  <path d="M360,300 L360,200" stroke="#4a90e2" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Agent -> Training -->
+  <path d="M410,150 L550,150" stroke="#50c878" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Training Loop Internal -->
+  <path d="M100,80 L100,90" transform="translate(550, 150)" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M100,130 L100,140" transform="translate(550, 150)" stroke="#555" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Training -> Agent (Update) -->
+  <path d="M550,300 C500,300 500,180 410,180" stroke="#9013fe" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#ffffff" />
+    </marker>
+    <marker id="circle" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <circle cx="4" cy="4" r="3" fill="#ffffff"/>
+    </marker>
+  </defs>
+
+</svg>
