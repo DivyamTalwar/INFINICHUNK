@@ -31,6 +31,7 @@ from verl.experimental.agent_loop.agent_loop import (
 from verl.experimental.agent_loop.infinichunk_trimmers import get_trimmer_cls
 from verl.utils.profiler.performance import simple_timer
 from verl.utils.rollout_trace import rollout_trace_op
+from infinichunk_ext.prefix_cache import PrefixCacheReceipt
 
 logger = logging.getLogger(__file__)
 logger.setLevel(os.getenv("VERL_LOGGING_LEVEL", "WARN"))
@@ -100,6 +101,12 @@ class InfinichunkAgentLoop(AgentLoopBase):
         trace_log_probs = []
 
         assistant_turns = 0
+        # A stable id pins every chunk in this trajectory to the same rollout
+        # server, allowing SGLang/vLLM prefix/radix caches to reuse the unchanged
+        # question and retained-head tokens.
+        request_id = kwargs.get("request_id") or uuid4().hex
+        previous_prompt_ids = None
+        prefix_cache_receipt = PrefixCacheReceipt()
         while True:
             sampling_params = orig_sampling_params.copy()
             sampling_params["return_full_output"] = True
@@ -109,11 +116,13 @@ class InfinichunkAgentLoop(AgentLoopBase):
             )
 
             with simple_timer("generate_sequences", metrics):
+                prefix_cache_receipt.observe(previous_prompt_ids, prompt_ids)
                 response: dict[str, Any] = await self.server_manager.generate(
-                    request_id=uuid4().hex,  # we don't want to use the same server for the same trace
+                    request_id=request_id,
                     prompt_ids=prompt_ids.tolist(),  # sglang only accepts list[int]
                     sampling_params=sampling_params,
                 )
+                previous_prompt_ids = prompt_ids.copy()
 
             assistant_turns += 1
 
@@ -168,6 +177,7 @@ class InfinichunkAgentLoop(AgentLoopBase):
         extra_fields = {
             "trace_prompt_ids": trace_prompt_ids,
             "trace_response_ids": trace_response_ids,
+            "prefix_cache_receipt": prefix_cache_receipt.as_dict(),
         }
         if self.calculate_log_probs:
             extra_fields["trace_log_probs"] = trace_log_probs
