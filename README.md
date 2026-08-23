@@ -56,6 +56,10 @@ Our training stack is built for massive scale, leveraging **Ray** for distribute
 | **Rollout Engine** | High-throughput async inference using **SGLang** or **vLLM**. |
 | **Trainer** | Distributed PPO optimization supporting GRPO and FSDP sharding. |
 
+### Stable-prefix reuse
+
+Every chunk in one trajectory now uses a stable rollout request id. VERL's server manager therefore keeps the trajectory on the same worker, where SGLang/vLLM prefix or radix caching can reuse the unchanged question and retained-head tokens. Each output includes a `prefix_cache_receipt` with submitted and cache-eligible token counts. This is an eligibility receipt; actual cache hits and wall-clock savings must still be measured from the serving backend.
+
 ---
 
 ## 📊 Upstream results (not yet reproduced here)
