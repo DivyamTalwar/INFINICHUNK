@@ -2,11 +2,12 @@
 
 # 🚀 INFINICHUNK
 
-### **Scale Long-Form Reasoning to Infinite Lengths with Linear Compute**
+### **An attributed VERL/Delethink extension for bounded-context long reasoning**
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 [![Built on VERL](https://img.shields.io/badge/Built%20on-VERL-purple.svg)](https://github.com/volcengine/verl)
+[![Derived from Delethink](https://img.shields.io/badge/Derived%20from-Delethink-orange.svg)](https://github.com/McGill-NLP/the-markovian-thinker)
 
 <br>
 
@@ -18,7 +19,10 @@
 
 ## 🎯 What is INFINICHUNK?
 
-**INFINICHUNK** enables LLMs to perform **extended chain-of-thought reasoning** across **virtually unlimited token lengths** while keeping compute and memory costs **linear** instead of quadratic.
+**INFINICHUNK** is currently an experimental, mechanically renamed derivative of the bounded head-tail carryover implementation published as **Delethink** in [The Markovian Thinker](https://github.com/McGill-NLP/the-markovian-thinker), integrated into a vendored [VERL](https://github.com/volcengine/verl) tree.
+
+> [!IMPORTANT]
+> The core loop, trimmers, trainer integration, reward manager, and reproduction scripts are inherited work. The figures below are upstream results and have not yet been independently reproduced by this repository. See [UPSTREAM.md](UPSTREAM.md) and [Notice.txt](Notice.txt). The current package still installs as `verl`; it must not be published as a distinct PyPI package.
 
 ### The Quadratic Barrier
 Traditional transformer reasoning faces a critical bottleneck: memory and compute scale as **O(N²)**. As reasoning chains grow longer, they become prohibitively expensive.
@@ -27,8 +31,8 @@ Traditional transformer reasoning faces a critical bottleneck: memory and comput
   <img src="./assets/complexity_comparison.svg" width="90%"/>
 </p>
 
-### The Linear Solution
-INFINICHUNK breaks reasoning into **fixed-size chunks** with intelligent state carryover. This ensures that memory usage remains constant, no matter how long the model thinks.
+### The bounded-context approach
+The inherited Delethink mechanism breaks generation into **fixed-size chunks** and retains a configured head and tail between chunks. This bounds the active context per iteration; total rollout compute still grows with the number of chunks and serving/runtime details.
 
 <p align="center">
   <img src="./assets/memory_comparison.svg" width="90%"/>
@@ -54,9 +58,9 @@ Our training stack is built for massive scale, leveraging **Ray** for distribute
 
 ---
 
-## 📊 Performance Results
+## 📊 Upstream results (not yet reproduced here)
 
-We achieve strong reasoning performance on math benchmarks while slashing training costs by **3x**.
+These visualizations summarize results reported by the upstream Delethink project. They are included for reproduction context, not as independent INFINICHUNK measurements.
 
 <p align="center">
   <img src="./assets/results_benchmark.svg" width="100%"/>
@@ -147,7 +151,7 @@ Export <code>TREETUNEV__NUM_GPUS_PER_NODE=8</code> before running the training s
 
 <div align="center">
 
-**[VinePPO](https://github.com/DivyamTalwar/VinePPO)** • **[VERL](https://github.com/volcengine/verl)** • **[SGLang](https://github.com/sgl-project/sglang)**
+**[The Markovian Thinker](https://github.com/McGill-NLP/the-markovian-thinker)** • **[VERL](https://github.com/volcengine/verl)** • **[SGLang](https://github.com/sgl-project/sglang)**
 
 Made with 💜 by Divyam Talwar
 
