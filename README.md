@@ -60,6 +60,16 @@ Our training stack is built for massive scale, leveraging **Ray** for distribute
 
 Every chunk in one trajectory now uses a stable rollout request id. VERL's server manager therefore keeps the trajectory on the same worker, where SGLang/vLLM prefix or radix caching can reuse the unchanged question and retained-head tokens. Each output includes a `prefix_cache_receipt` with submitted and cache-eligible token counts. This is an eligibility receipt; actual cache hits and wall-clock savings must still be measured from the serving backend.
 
+### Original INFINICHUNK research surface
+
+New work lives under `infinichunk_ext`, separate from the inherited `verl` namespace:
+
+- **Salience carryover selector** consumes learned per-token utility scores while enforcing a hard budget, mandatory head/tail, and stable source order.
+- **Continuity verifier** detects explicit variable/value contradictions across chunk summaries before the next rollout.
+- **Carryover benchmark lab** evaluates policies under the same cases, budgets, and utility function and emits raw JSONL receipts.
+
+Run `python examples/carryover_lab.py` for a tiny offline fixture. This establishes an experiment interface; learned-policy quality claims still require real training, upstream baselines, and three-seed artifacts.
+
 ---
 
 ## 📊 Upstream results (not yet reproduced here)

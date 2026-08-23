@@ -22,6 +22,7 @@ jobs:
           verl/experimental/agent_loop/infinichunk_agent_loop.py
           verl/experimental/agent_loop/infinichunk_trimmers.py
           infinichunk_ext/prefix_cache.py
+          infinichunk_ext/carryover.py
           verl/workers/reward_manager/infinichunk.py
       - name: Verify provenance invariants
         run: python -m unittest discover -s tests -v
